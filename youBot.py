@@ -9,7 +9,7 @@ class youBotProperties:
     """
     
     robotDim = [0.47/2,0.30/2,0.0475] # Correspomds to length , width of the robot from centre and the radius of the wheels.
-
+    l,w,r = robotDim
 
     Blist = np.array([
             [0,0,1,0,0.033,0],
@@ -25,12 +25,50 @@ class youBotProperties:
         [0,0,1,0.6546],
         [0,0,0,1]
         ])
+    F_theta = (r/4) * np.array([
+        [-1/(l+w),1/(l+w),1/(l+w),-1/(l+w)],
+        [1       ,1      ,1      ,1       ],
+        [-1      ,1      ,-1     ,1]
+    ])
+
+class youBotState:
+    def __init__(self):
+        self.chasisState = np.zeros(3)
+        self.jointState = np.zeros(5)
+        self.wheelState = np.zeros(4)
+        self.gripperState = np.zeros(1)
+
+class ControlVector:
+    def __init__(self):
+        self.jointControl = np.zeros(5)
+        self.wheelControl = np.zeros(4)
+
 
 class TrasformMatrix:
     """
     Contains all the transformation Matrices required for the use in the entire simulation
     and the functions required to do form them..
     """
+    T_b0  = np.array([
+        [1,0,0,0.1662],
+        [0,1,0,0],
+        [0,0,1,0.0026],
+        [0,0,0,1]
+    ])
+    
+    Standoff_Tce = np.array([
+        [-1,0,0,0],
+        [0,1,0,0],
+        [0,0,-1,0.2],
+        [0,0,0,1]
+    ])
+    
+    Grasp_Tce = np.array([
+        [-1,0,0,0],
+        [0,1,0,0],
+        [0,0,-1,0],
+        [0,0,0,1]
+    ])
 
     def cubePosition(self,x,y,phi):
         """
@@ -59,25 +97,7 @@ class TrasformMatrix:
             [0,0,1,0.0963],
             [0,0,0,1]
         ])
-    T_b0  = np.array([
-        [1,0,0,0.1662],
-        [0,1,0,0],
-        [0,0,1,0.0026],
-        [0,0,0,1]
-    ])
     
-    Standoff_Tce = np.array([
-        [-1,0,0,0],
-        [0,1,0,0],
-        [0,0,-1,0.2],
-        [0,0,0,1]
-    ])
     
-    Grasp_Tce = np.array([
-        [-1,0,0,0],
-        [0,1,0,0],
-        [0,0,-1,0],
-        [0,0,0,1]
-    ])
 
 
