@@ -42,6 +42,7 @@ class ControlVector:
     def __init__(self):
         self.jointControl = np.zeros(5)
         self.wheelControl = np.zeros(4)
+        self.griperControl = np.zeros(1) # could be redundant....
 
 
 class TrasformMatrix:
