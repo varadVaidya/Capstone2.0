@@ -2,6 +2,8 @@ import numpy as np
 import modern_robotics as mr
 from math import sin,cos
 
+from numpy.lib.function_base import _select_dispatcher
+
 class youBotProperties:
     """
     contains all the properties for the youBot simulation...
@@ -113,6 +115,19 @@ class TrasformMatrix:
             [0,0,1,0.0963],
             [0,0,0,1]
         ])
+
+    def endEffectorinSpace(self,currentState):
+        """
+        input:
+        current state
+        returns:
+        the transformation matrix of the end effector in space frame.
+        """
+        base = self.basePosition(currentState.chasisState)
+        offset = self.T_b0
+        forwardkin = mr.FKinBody(youBotProperties.homePositionM0e,youBotProperties.Blist,currentState.jointState)
+
+        return np.dot(base,offset,forwardkin)
     
     
 
