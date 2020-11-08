@@ -88,12 +88,13 @@ class TrasformMatrix:
         [0,0,0,1]
     ])
 
-    def cubePosition(self,x,y,phi):
+    def cubePosition(self,cubePos):
         """
         give the position of the cube in the space frame {s}
 
         used for both initial and final configurations
         """
+        x,y,phi = cubePos
         return np.array([
             [cos(phi),-sin(phi),0,x],
             [sin(phi),cos(phi),y],
