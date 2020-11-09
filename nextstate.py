@@ -25,7 +25,7 @@ def getnextState(currentState,controls):
     temp = currentState.wheelState + youBotProperties.deltaT * controls.wheelSpeeds
 
     deltaTheta = temp - currentState.wheelState
-
+    currentState.wheelState = temp
     Vb = np.dot( youBotProperties.F_theta , deltaTheta)
     wZ , vX , vY = Vb
     
@@ -54,5 +54,3 @@ if __name__ == "__main__":
     time = np.linspace(0,totalTime,timepoints)
     for i in time:
         getnextState(currentState,controls)
-    
-    print(currentState.chasisState)
