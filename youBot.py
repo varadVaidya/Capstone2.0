@@ -67,6 +67,9 @@ class TrasformMatrix:
     Contains all the transformation Matrices required for the use in the entire simulation
     and the functions required to do form them..
     """
+    def __init__(self):
+        pass
+
     T_b0  = np.array([
         [1,0,0,0.1662],
         [0,1,0,0],
@@ -88,47 +91,56 @@ class TrasformMatrix:
         [0,0,0,1]
     ])
 
-    def cubePosition(self,cubePos):
-        """
-        give the position of the cube in the space frame {s}
+def cubePosition(cubePos):
+    """
+    give the position of the cube in the space frame {s}
+    x,y,phi
+    used for both initial and final configurations
+    """
+    x,y,phi = cubePos
 
-        used for both initial and final configurations
-        """
-        x,y,phi = cubePos
-        return np.array([
-            [cos(phi),-sin(phi),0,x],
-            [sin(phi),cos(phi),y],
-            [0,0,1,0.25],
-            [0,0,0,1]
-        ])
+    cube = np.array([
+        [cos(phi),-sin(phi),0,x],
+        [sin(phi),cos(phi),0,y],
+        [0,0,1,0.025],
+        [0,0,0,1]
+    ])
+    return cube
 
-    def basePosition(self,chasisConfig):
-        """
-        input: takes in Chasis configuration of the robot 
-        Chasis Config represented by phi,x,y
-        returns: the transformation matrix of the base in the space frame {s}        
-        """
-        phi,x,y = chasisConfig
+def basePosition(chasisConfig):
+    """
+    input: takes in Chasis configuration of the robot 
+    Chasis Config represented by phi,x,y
+    returns: the transformation matrix of the base in the space frame {s}        
+    """
+    phi,x,y = chasisConfig
 
-        return np.array([
-            [cos(phi),-sin(phi),0,x],
-            [sin(phi),cos(phi),y],
-            [0,0,1,0.0963],
-            [0,0,0,1]
-        ])
+    base = np.array([
+        [cos(phi),-sin(phi),0,x],
+        [sin(phi),cos(phi),0,y],
+        [0,0,1,0.0963],
+        [0,0,0,1]
+    ])
+    return base
+    # return np.array([
+    #     [cos(phi),-sin(phi),0,x],
+    #     [sin(phi),cos(phi),y],
+    #     [0,0,1,0.0963],
+    #     [0,0,0,1]
+    # ])
 
-    def endEffectorinSpace(self,currentState):
-        """
-        input:
-        current state
-        returns:
-        the transformation matrix of the end effector in space frame.
-        """
-        base = self.basePosition(currentState.chasisState)
-        offset = self.T_b0
-        forwardkin = mr.FKinBody(youBotProperties.homePositionM0e,youBotProperties.Blist,currentState.jointState)
-
-        return np.dot(base,offset,forwardkin)
+def endEffectorinSpace(currentState):
+    """
+    input:
+    current state
+    returns:
+    the transformation matrix of the end effector in space frame.
+    """
+    base = basePosition(currentState.chasisState)
+    offset = TrasformMatrix.T_b0
+    forwardkin = mr.FKinBody(youBotProperties.homePositionM0e,youBotProperties.Blist,currentState.jointState)
+    endEffector = np.dot(base,np.dot(offset,forwardkin))
+    return endEffector
     
     
 
