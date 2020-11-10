@@ -34,10 +34,14 @@ class youBotProperties:
         [1       ,1      ,1      ,1       ],
         [-1      ,1      ,-1     ,1]
     ])
+    zeroMatrix  = np.zeros(np.shape(F_theta)[1])
 
-    jointSpeedLimit = 12.9
-    wheelSpeedLimit = 12.9
+    F6 = np.concatenate((zeroMatrix[np.newaxis,:],zeroMatrix[np.newaxis,:],F_theta,zeroMatrix[np.newaxis,:]),axis=0)
+
+    jointSpeedLimit = 1000000000000000
+    wheelSpeedLimit = 400000000000000000
     deltaT = 0.01
+    ErrorInt = np.zeros(6)
     
     @staticmethod
     def saturate(variable,limit):
@@ -77,19 +81,49 @@ class TrasformMatrix:
         [0,0,0,1]
     ])
     
-    Standoff_Tce = np.array([
-        [-1,0,0,0],
-        [0,1,0,0],
-        [0,0,-1,0.2],
-        [0,0,0,1]
-    ])
+    # Standoff_Tce = np.array([[-0.17364818,  0.        ,  0.98480775,  0.        ],
+    #    [ 0.        ,  1.        ,  0.        ,  0.        ],
+    #    [-0.98480775,  0.        , -0.17364818,  0.2        ],
+    #    [ 0.        ,  0.        ,  0.        ,  1.        ]])
     
-    Grasp_Tce = np.array([
-        [-1,0,0,0],
-        [0,1,0,0],
-        [0,0,-1,0],
-        [0,0,0,1]
-    ])
+    # Standoff_Tce = np.array([
+    #     [-1,0,0,0],
+    #     [0,1,0,0],
+    #     [0,0,-1,0.2],
+    #     [0,0,0,1]
+    # ])
+    
+    
+    Standoff_Tce = np.array([[-0.34202014,  0.        ,  0.93969262,  0.        ],
+       [ 0.        ,  1.        ,  0.        ,  0.        ],
+       [-0.93969262,  0.        , -0.34202014,  0.1       ],
+       [ 0.        ,  0.        ,  0.        ,  1.        ]])
+
+
+
+    # Grasp_Tce = np.array([
+    #     [0,0,1,0],
+    #     [0,1,0,0],
+    #     [-1,0,0,0],
+    #     [0,0,0,1]
+    # ])
+
+    Grasp_Tce = np.array([[-0.34202014,  0.        ,  0.93969262,  0.05        ],
+       [ 0.        ,  1.        ,  0.        ,  0.        ],
+       [-0.93969262,  0.        , -0.34202014,  0.        ],
+       [ 0.        ,  0.        ,  0.        ,  1.        ]])
+    # Grasp_Tce = np.array([[-0.17364818,  0.        ,  0.98480775,  0.        ],
+    #    [ 0.        ,  1.        ,  0.        ,  0.        ],
+    #    [-0.98480775,  0.        , -0.17364818,  0.       ],
+    #    [ 0.        ,  0.        ,  0.        ,  1.        ]])
+
+    # Grasp_Tce = np.array([
+    #     [-1,0,0,0],
+    #     [0,1,0,0],
+    #     [0,0,-1,0],
+    #     [0,0,0,1]
+    # ])
+
 
 def cubePosition(cubePos):
     """
@@ -141,7 +175,15 @@ def endEffectorinSpace(currentState):
     forwardkin = mr.FKinBody(youBotProperties.homePositionM0e,youBotProperties.Blist,currentState.jointState)
     endEffector = np.dot(base,np.dot(offset,forwardkin))
     return endEffector
-    
+
+def flatTrajtoTransform(traj):
+    gripper = traj[-1]
+
+    rotation = traj[0:9].reshape(3,3)
+    point = traj[9:12]
+
+    transform = mr.RpToTrans(rotation,point)
+    return transform,gripper
     
 
 
