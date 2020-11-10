@@ -34,7 +34,7 @@ def solveWaypoints(waypoints,gripper,time):
     for i in range( len(waypoints) -1 ):
 
         # traj segment is contains all the Transformation matrix from waypoint i to waypoint i+1 
-        trajSegment = flatTraj( mr.ScrewTrajectory(waypoints[i],waypoints[i+1],time[i],time[i]/0.01,method=5), gripper[i] )
+        trajSegment = flatTraj( mr.ScrewTrajectory(waypoints[i],waypoints[i+1],time[i],time[i]/0.01,method=3), gripper[i] )
         finalTraj.extend(trajSegment)
         
         pass
@@ -66,7 +66,7 @@ def generateTrajectory(initBotState,initCubeLoc,finalCubeLoc):
 
     waypoints = [botPosition,initStandoff,initGrasp,initGrasp,initStandoff,finalStandoff,finalGrasp,finalGrasp,finalStandoff]
     gripperWaypoint = [0,0,1,1,1,1,0,0]
-    time =    [7,3,1,3,7,3,1,3]
+    time =            [7,3,1,3,7,3,1,3]
 
     return solveWaypoints(waypoints,gripperWaypoint,time)
 
