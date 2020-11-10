@@ -1,3 +1,4 @@
+from trajgen import solveWaypoints
 from scipy.linalg import pinv2
 from numpy.lib import utils
 from youBot import ControlVector, basePosition, endEffectorinSpace, youBotProperties, youBotState
@@ -8,14 +9,14 @@ def feedForwardControl(X,Xd,XdNext,currentState,controls,Kp,Ki):
     """
     sets the controVector to be passed on to the next state function.
     """
-    T_eb = np.dot( np.linalg.inv(endEffectorinSpace(currentState)), basePosition(currentState.chasisState))
+    T_eb = np.dot( np.linalg.inv(endEffectorinSpace(currentState)), basePosition(currentState.chasisState))###doubt
     
     Jbase = np.dot(mr.Adjoint(T_eb),youBotProperties.F6)
     Jarm = mr.JacobianBody(youBotProperties.Blist,currentState.jointState)
 
     Je = np.concatenate((Jbase,Jarm),axis=1)
     # Je = np.concatenate((Jarm,Jbase),axis=1)
-    invJe = pinv2(Je)
+    invJe = np.linalg.pinv(Je)
     VdBracket = (1/youBotProperties.deltaT) * mr.MatrixLog6(np.dot(np.linalg.inv(Xd),XdNext))
     Vd = mr.se3ToVec(VdBracket)
     #print("Vd",Vd)
@@ -27,6 +28,9 @@ def feedForwardControl(X,Xd,XdNext,currentState,controls,Kp,Ki):
     feedForward = np.dot(mr.Adjoint(np.dot(np.linalg.inv(X),Xd)),Vd)
     #print("FeedForward:",feedForward)
     V = feedForward + np.dot(Kp,Xerr) * np.dot(Ki,youBotProperties.ErrorInt)
+    # Tbb_ = mr.MatrixExp6(mr.VecTose3(V))
+    # Tsb_ = np.dot(endEffectorinSpace(currentState),Tbb_)
+    # flat = np.concatenate((Tsb_[0:3,0:3].reshape(9),Tsb_[0:3,-1],np.array([0])))
     #print("V",V)
 
     u_thetadot = np.dot(invJe,V)
@@ -37,7 +41,7 @@ def feedForwardControl(X,Xd,XdNext,currentState,controls,Kp,Ki):
     # print("wheel COntrols",u_thetadot[0:4]
     # )
     # print("Joint COntrols",u_thetadot[4:9])
-    return Xerr
+    return Xerr,flat
 
 
 

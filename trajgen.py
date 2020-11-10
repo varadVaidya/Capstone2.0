@@ -26,7 +26,7 @@ def solveWaypoints(waypoints,gripper,time):
         traj = []
         for i in range(len(Trajectory)):
             Transformation = np.array(Trajectory[i])
-            traj.append(np.concatenate(( Transformation[0:3,0:3].reshape(9), Transformation[0:3,3] , gripperstate  )))
+            traj.append(np.concatenate(( Transformation[0:3,0:3].reshape(9), Transformation[0:3,-1] , gripperstate  )))
         
         traj = np.array(traj)
         return traj
@@ -37,7 +37,6 @@ def solveWaypoints(waypoints,gripper,time):
         trajSegment = flatTraj( mr.ScrewTrajectory(waypoints[i],waypoints[i+1],time[i],time[i]/0.01,method=3), gripper[i] )
         finalTraj.extend(trajSegment)
         
-        pass
 
     finalTraj = np.array(finalTraj)
     print(finalTraj.shape)
@@ -66,7 +65,7 @@ def generateTrajectory(initBotState,initCubeLoc,finalCubeLoc):
 
     waypoints = [botPosition,initStandoff,initGrasp,initGrasp,initStandoff,finalStandoff,finalGrasp,finalGrasp,finalStandoff]
     gripperWaypoint = [0,0,1,1,1,1,0,0]
-    time =            [7,3,1,3,7,3,1,3]
+    time =            [5,3,1,3,5,3,1,3]
 
     return solveWaypoints(waypoints,gripperWaypoint,time)
 

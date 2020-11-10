@@ -25,6 +25,7 @@ def getnextState(currentState,controls):
     temp = currentState.wheelState + youBotProperties.deltaT * controls.wheelSpeeds
 
     deltaTheta = temp - currentState.wheelState
+    
     currentState.wheelState = temp
     Vb6 = np.dot( youBotProperties.F6 , deltaTheta)
 

@@ -18,7 +18,7 @@ initCube = [1,0,0]
 finalCube = [0,-1,-pi/2]
 stateMatrix = []
 Error = []
-
+flatList = []
 ######### Generate Trajectory ########
 Trajectory = generateTrajectory(initialState,initCube,finalCube)
 np.savetxt('traj.csv',Trajectory,fmt="%f",delimiter=",")
@@ -37,12 +37,15 @@ for i in range( len(Trajectory) -1 ):
     XdNext,_gripper = flatTrajtoTransform(Trajectory[i+1])
 
     currentState.gripperState = np.array(gripper)
-    Xrr = feedForwardControl(X,Xd,XdNext,currentState,controls,Kp,Ki)
+    Xrr,flat = feedForwardControl(X,Xd,XdNext,currentState,controls,Kp,Ki)
     Error.append(Xrr)
+    flatList.append(flat)
     getnextState(currentState,controls)
 Error = np.array(Error)
+flatList = np.array(flatList)
 stateMatrix = np.array(stateMatrix)
 np.savetxt('stateMat.csv',stateMatrix,fmt='%f',delimiter=',')
+np.savetxt('flat.csv',flatList,fmt='%f',delimiter=',')
 
 ### plot the results
 iterations = range(len(Trajectory)-1)
