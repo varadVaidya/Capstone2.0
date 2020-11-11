@@ -41,7 +41,7 @@ def feedForwardControl(X,Xd,XdNext,currentState,controls,Kp,Ki):
     # print("wheel COntrols",u_thetadot[0:4]
     # )
     # print("Joint COntrols",u_thetadot[4:9])
-    return Xerr,flat
+    return Xerr
 
 
 
