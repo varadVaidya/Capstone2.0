@@ -8,14 +8,16 @@ import matplotlib.pyplot as plt
 import modern_robotics as mr
 
 initialState = youBotState()
-initialState.jointState = np.array([0.,0,0.3,-1.6,0])
+
+initialState.jointState = np.array([0,0,0.3,-1.6,0])
+initialState.chasisState = np.array([0,-0,-0.])
 currentState = initialState
 controls = ControlVector()
-Kp =  0* np.eye(6)
-Ki = 0* np.eye(6)
+Kp = 2 * np.eye(6)
+Ki = 1 * np.eye(6)
 
-initCube = [1,0,0]
-finalCube = [0,-1,-pi/2]
+initCube = [1,0.5,0]
+finalCube = [-0.5,-1,-pi/2]
 stateMatrix = []
 Error = []
 flatList = []
@@ -37,9 +39,9 @@ for i in range( len(Trajectory) -1 ):
     XdNext,_gripper = flatTrajtoTransform(Trajectory[i+1])
 
     currentState.gripperState = np.array(gripper)
-    Xrr,flat = feedForwardControl(X,Xd,XdNext,currentState,controls,Kp,Ki)
+    Xrr = feedForwardControl(X,Xd,XdNext,currentState,controls,Kp,Ki)
     Error.append(Xrr)
-    flatList.append(flat)
+    #flatList.append(flat)
     getnextState(currentState,controls)
 Error = np.array(Error)
 flatList = np.array(flatList)
