@@ -1,7 +1,7 @@
 from youBot import ControlVector, basePosition, youBotProperties, youBotState
 import numpy as np
 import modern_robotics as mr
-from math import acos, sin,cos
+from math import acos, atan2, sin,cos
 
 
 def getnextState(currentState,controls):
@@ -32,7 +32,7 @@ def getnextState(currentState,controls):
     Tbb_ = mr.MatrixExp6(mr.VecTose3(Vb6))
     Tsbnew = np.dot(basePosition(currentState.chasisState),Tbb_)
 
-    phi,x,y = acos(Tsbnew[0,0]),Tsbnew[0,3],Tsbnew[1,3]
+    phi,x,y = atan2(Tsbnew[1,0],Tsbnew[0,0]),Tsbnew[0,3],Tsbnew[1,3]
     currentState.chasisState = np.array([phi,x,y])
     # wZ , vX , vY = Vb
     
