@@ -65,7 +65,7 @@ def generateTrajectory(initBotState,initCubeLoc,finalCubeLoc):
 
     waypoints = [botPosition,initStandoff,initGrasp,initGrasp,initStandoff,finalStandoff,finalGrasp,finalGrasp,finalStandoff]
     gripperWaypoint = [0,0,1,1,1,1,0,0]
-    time =            [5,3,1,3,7,3,1,3]
+    time =            [5,3,1,3,10,3,1,3]
 
     return solveWaypoints(waypoints,gripperWaypoint,time)
 
