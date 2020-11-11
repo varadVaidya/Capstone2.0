@@ -38,8 +38,8 @@ class youBotProperties:
 
     F6 = np.concatenate((zeroMatrix[np.newaxis,:],zeroMatrix[np.newaxis,:],F_theta,zeroMatrix[np.newaxis,:]),axis=0)
 
-    jointSpeedLimit = 1000000000000000
-    wheelSpeedLimit = 400000000000000000
+    jointSpeedLimit = 12
+    wheelSpeedLimit = 40
     deltaT = 0.01
     ErrorInt = np.zeros(6)
     
