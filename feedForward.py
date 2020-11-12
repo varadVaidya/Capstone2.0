@@ -28,19 +28,11 @@ def feedForwardControl(X,Xd,XdNext,currentState,controls,Kp,Ki):
     feedForward = np.dot(mr.Adjoint(np.dot(np.linalg.inv(X),Xd)),Vd)
     #print("FeedForward:",feedForward)
     V = feedForward + np.dot(Kp,Xerr) * np.dot(Ki,youBotProperties.ErrorInt)
-    # Tbb_ = mr.MatrixExp6(mr.VecTose3(V))
-    # Tsb_ = np.dot(endEffectorinSpace(currentState),Tbb_)
-    # flat = np.concatenate((Tsb_[0:3,0:3].reshape(9),Tsb_[0:3,-1],np.array([0])))
-    #print("V",V)
 
     u_thetadot = np.dot(invJe,V)
     controls.wheelSpeeds = u_thetadot[0:4]
     controls.jointSpeeds = u_thetadot[4:9]
-    # controls.wheelSpeeds = u_thetadot[5:9]
-    # controls.jointSpeeds = u_thetadot[0:5]
-    # print("wheel COntrols",u_thetadot[0:4]
-    # )
-    # print("Joint COntrols",u_thetadot[4:9])
+    
     return Xerr
 
 

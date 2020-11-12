@@ -21,8 +21,7 @@ def solveWaypoints(waypoints,gripper,time):
         """
         gripperstate = np.array([gripperstate])
         
-        # temp1 = Trajectory[0:3,0:3].reshape(9)
-        # temp2 = Trajectory[0:3,3]
+    
         traj = []
         for i in range(len(Trajectory)):
             Transformation = np.array(Trajectory[i])

@@ -10,14 +10,14 @@ import modern_robotics as mr
 initialState = youBotState()
 
 initialState.jointState = np.array([0,0,0.3,-1.6,0])
-initialState.chasisState = np.array([0,-0,-0.])
+initialState.chasisState = np.array([0,-0.3,-0.5])
 currentState = initialState
 controls = ControlVector()
 Kp = 2 * np.eye(6)
 Ki = 1 * np.eye(6)
 
-initCube = [1,0.5,0]
-finalCube = [-0.5,-1,-pi/2]
+initCube = [1,0,0]
+finalCube = [-0,-1,-pi/2]
 stateMatrix = []
 Error = []
 flatList = []

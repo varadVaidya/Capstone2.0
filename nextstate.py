@@ -34,21 +34,7 @@ def getnextState(currentState,controls):
 
     phi,x,y = atan2(Tsbnew[1,0],Tsbnew[0,0]),Tsbnew[0,3],Tsbnew[1,3]
     currentState.chasisState = np.array([phi,x,y])
-    # wZ , vX , vY = Vb
-    
-    
-    # if mr.NearZero(wZ):
-    #     qb = np.array([0,vX,vY])
-    # else:
-    #     qb = np.array([wZ, vX * sin(wZ) + (vY/wZ)*( cos(wZ)-1 ) , vY*sin(wZ) + (vX/wZ)*(1-cos(wZ)) ])
-    
-    # deltaQ = np.dot(np.array([
-    #     [1,0,0],
-    #     [0,cos(currentState.chasisState[0]) , -sin(currentState.chasisState[0])],
-    #     [0,sin(currentState.chasisState[0]), cos(currentState.chasisState[0])]
-    # ]), qb)
-
-    # currentState.chasisState = currentState.chasisState + deltaQ
+   
 
 
 if __name__ == "__main__":
