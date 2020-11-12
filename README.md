@@ -12,7 +12,11 @@ The desired trajectory is a list of End Effector position represented in SE(3).
 A FeedForward-PI control then tracks the end effector along the trajctory. The function provides a Spatial Twist in the sapce frame which is then used to calculted to find the required joint and wheel velocites using the Jacobian. These velocities are then in then used to calculate the next state of the youBot.
 
 ## Results
-
+The GIF of the working simulation is:  
+![gif](result.gif?raw=True)
+And the Error plot of the Twist required to take robot from X_1 to X_2 is:  
+The error is vey close to zero all along the trajectory.
+![image](error.png?raw=True)
 ## Future Work
 * Design an algorithm that will activly avoid the singularity condition and avoid reaching the joint limits.
 * Implemet weighted pseudo-Inverse of the Jacobian Matrix to force the youBot to use its mobile base more than its Manipulator
