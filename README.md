@@ -13,6 +13,7 @@ A FeedForward-PI control then tracks the end effector along the trajctory. The f
 
 ## Results
 The GIF of the working simulation is:  
+[Video link if GIF loads slow.](https://youtu.be/4ChucdYt1sA)
 ![gif](result.gif?raw=True)
 And the Error plot of the Twist required to take robot from X_1 to X_2 is:  
 The error is vey close to zero all along the trajectory.
